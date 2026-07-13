@@ -1,9 +1,11 @@
 import cv2 as cv
 from pose_detector import PoseDetector
 from angle_utils import calculate_angle
+from rep_counter import RepCounter
 
 cap = cv.VideoCapture(0)
 detector = PoseDetector()
+counter = RepCounter()
 
 while True:
     ret , frame = cap.read()
@@ -22,7 +24,8 @@ while True:
 
         if min_visibility > 0.5:
             angle = calculate_angle(shoulder, elbow, wrist)
-            print(f"Elbow angle: {angle:.1f}")
+            count = counter.update(angle)
+            print(f"Elbow angle: {angle:.1f}, Reps: {count}")
         else:
             print("Arm not clearly visible")
 

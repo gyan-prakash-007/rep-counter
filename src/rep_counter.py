@@ -1,5 +1,5 @@
 class RepCounter :
-    def __init__(self, down_threshould=160,up_threshold=50):
+    def __init__(self, down_threshould=110,up_threshold=90):
         self.down_threshold = down_threshould
         self.up_threshold = up_threshold
         self.state = "down"
