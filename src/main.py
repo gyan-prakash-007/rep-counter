@@ -6,6 +6,7 @@ from rep_counter import RepCounter
 cap = cv.VideoCapture(0)
 detector = PoseDetector()
 counter = RepCounter()
+count = 0
 
 while True:
     ret , frame = cap.read()
@@ -25,12 +26,14 @@ while True:
         if min_visibility > 0.5:
             angle = calculate_angle(shoulder, elbow, wrist)
             count = counter.update(angle)
-            print(f"Elbow angle: {angle:.1f}, Reps: {count}")
-        else:
+            print(f"Elbow angle: {angle:.1f}, State: {counter.state}, Reps: {count}")
+        else: 
             print("Arm not clearly visible")
 
     else:
         print("No Pose detected")
+    
+    cv.putText(frame, f'Reps: {count}', (50, 50), cv.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2)
 
     cv.imshow("Rep Counter", frame)
 
@@ -38,5 +41,4 @@ while True:
         break
 
 
-cap.release()
 cv.destroyAllWindows()
